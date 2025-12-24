@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Language - VoiceMap</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+
+<body class="sign-language-page">
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <a href="/" class="logo-container">
+            <img
+                src="static/images/VoiceMap_logo.jpeg"
+                class="logo"
+                alt="VoiceMap Logo"
+            />
+            <span class="site-name">VoiceMap</span>
+        </a>
+    </header>
+
+    <!-- Main -->
+    <main class="sign-language-container">
+        <h1 class="page-title">Sign Language Mode</h1>
+
+        <div class="main-card-sign">
+
+            <!-- Controls -->
+            <div id="controls-sign">
+                <button
+                    id="recordButtonSign"
+                    class="btn btn-record-start-sign"
+                >
+                    Start Recording
+                </button>
+
+                <div class="or-separator">OR</div>
+
+                <input
+                    type="file"
+                    id="uploadInput"
+                    accept="audio/*"
+                    class="file-input"
+                />
+                <label for="uploadInput" class="btn btn-upload">
+                    Upload Audio File
+                </label>
+            </div>
+
+            <!-- Status -->
+            <div id="statusSign" class="status-message"></div>
+
+            <!-- Output -->
+            <div
+                id="outputSign"
+                class="output-sign-container"
+                style="display: none;"
+            >
+                <h2 class="output-label">Output</h2>
+                <p
+                    id="transcribedText"
+                    class="transcribed-text-sign"
+                ></p>
+
+                <div
+                    id="videoContainer"
+                    class="video-container"
+                ></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Scripts (ORDER IS CRITICAL) -->
+    <script src="/static/js/recorder.js"></script>
+
+    <!-- Global sign dictionary -->
+    <script src="/static/signs/sign_map.js"></script>
+
+
+    <!-- Main logic -->
+    <script src="/static/js/sign_language.js"></script>
+
+</body>
+</html>

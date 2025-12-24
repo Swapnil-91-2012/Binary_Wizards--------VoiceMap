@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcriber - VoiceMap</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body class="transcriber-page">
+    <header class="navbar">
+        <a href="/" class="logo-container">
+            <img src="static/images/VoiceMap_logo.jpeg" class="logo" alt="VoiceMap Logo">
+            <span class="site-name">VoiceMap</span>
+        </a>
+    </header>
+
+    <main class="transcriber-container">
+        <div class="glass-card">
+            <div id="controls">
+                <button id="recordButton" class="btn btn-record-start">Start Recording</button>
+                <div class="or-separator">OR</div>
+                <input type="file" id="uploadInput" accept="audio/*" class="file-input">
+                <label for="uploadInput" class="btn btn-upload">Upload Audio File</label>
+            </div>
+            <div id="status" class="status-message"></div>
+            <div id="output" class="output-block-container">
+                <pre id="outputText" class="output-text"></pre>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/recorder.js"></script>
+    <script src="js/transcriber.js"></script>
+</body>
+</html>

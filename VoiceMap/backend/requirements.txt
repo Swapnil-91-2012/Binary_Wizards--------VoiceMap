@@ -1,0 +1,6 @@
+# Dependencies for the VoiceMap backend
+flask
+openai
+requests
+python-dotenv
+werkzeug
