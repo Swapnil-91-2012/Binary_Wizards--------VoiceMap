@@ -33,7 +33,7 @@ VoiceMap/
 │   ├── app.py                  # Main Flask application
 │   ├── whisper_service.py      # Handles audio-to-text using Whisper
 │   ├── gloss_service.py        # Converts text to gloss format
-│   ├── requirements.txt        # Backend dependencies
+│   └── requirements.txt        # Backend dependencies
 │
 ├── frontend/
 │   ├── css/
