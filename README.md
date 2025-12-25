@@ -48,7 +48,7 @@ VoiceMap/
 │   │   ├── js/
 │   │   |   ├── recorder.js        # Handles audio recording
 │   │   |   ├── transcriber.js     # Handles audio upload & transcription
-|   |   |   ├── sign_language.js   # Handles glossing & sign flow
+|   |   |   └── sign_language.js   # Handles glossing & sign flow
 │   │   |
 │   |   └── signs/
 │   │       ├── sign_map.js         # Maps letters/words to sign videos
