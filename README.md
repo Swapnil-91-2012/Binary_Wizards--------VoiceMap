@@ -41,6 +41,7 @@ VoiceMap/
 │   │
 │   ├── static/
 │   │   ├── images/             # UI images and logos
+│   │   │   ├── BACKGROUND_IMAGE.png
 │   │   │   ├── Sign_Language.png
 │   │   │   ├── Transcriber.png
 │   │   │   └── VoiceMap_logo.jpeg
