@@ -1,90 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Language - VoiceMap</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Language | VoiceMap</title>
+  <link rel="stylesheet" href="css/style.css"/>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .logo-container {
+      text-decoration: none;
+      color: white;
+    }
+    .site-name {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
-<body class="sign-language-page">
+<body class="bg-page">
+<header class="navbar">
+  <a href="index.html" class="logo-container">
+    <img src="static/images/VoiceMap_logo.jpeg" class="logo" />
+    <span class="site-name">VoiceMap</span>
+  </a>
+</header>
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <a href="/" class="logo-container">
-            <img
-                src="static/images/VoiceMap_logo.jpeg"
-                class="logo"
-                alt="VoiceMap Logo"
-            />
-            <span class="site-name">VoiceMap</span>
-        </a>
-    </header>
+<main class="center-wrapper">
+  <div class="glass-panel vertical">
 
-    <!-- Main -->
-    <main class="sign-language-container">
-        <h1 class="page-title">Sign Language Mode</h1>
+    <h1>Sign Language Mode</h1>
 
-        <div class="main-card-sign">
+    <button id="recordButtonSign" class="action-btn green primary-btn">
+      START RECORDING 🎤
+    </button>
 
-            <!-- Controls -->
-            <div id="controls-sign">
-                <button
-                    id="recordButtonSign"
-                    class="btn btn-record-start-sign"
-                >
-                    Start Recording
-                </button>
+    <div class="or-divider">OR</div>
 
-                <div class="or-separator">OR</div>
+    <button id="uploadBtnSign" class="action-btn gray secondary-btn">
+      UPLOAD AUDIO FILE
+    </button>
 
-                <input
-                    type="file"
-                    id="uploadInput"
-                    accept="audio/*"
-                    class="file-input"
-                />
-                <label for="uploadInput" class="btn btn-upload">
-                    Upload Audio File
-                </label>
-            </div>
+    <input type="file" id="uploadSign" accept="audio/*" hidden />
 
-            <!-- Status -->
-            <div id="statusSign" class="status-message"></div>
+    <div id="statusSign" class="status-text"></div>
 
-            <!-- Output -->
-            <div
-                id="outputSign"
-                class="output-sign-container"
-                style="display: none;"
-            >
-                <h2 class="output-label">Output</h2>
-                <p
-                    id="transcribedText"
-                    class="transcribed-text-sign"
-                ></p>
+    <div class="video-box" id="videoContainer">
+      <span>Live Sign Video Feed</span>
+    </div>
 
-                <div
-                    id="videoContainer"
-                    class="video-container"
-                ></div>
-            </div>
+  </div>
+</main>
 
-        </div>
-    </main>
-
-    <!-- Scripts (ORDER IS CRITICAL) -->
-    <script src="/static/js/recorder.js"></script>
-
-    <!-- Global sign dictionary -->
-    <script src="/static/signs/sign_map.js"></script>
-
-
-    <!-- Main logic -->
-    <script src="/static/js/sign_language.js"></script>
-
+<script src="/static/js/recorder.js"></script>
+<script src="/static/signs/sign_map.js"></script>
+<script src="/static/js/sign_language.js"></script>
 </body>
 </html>
