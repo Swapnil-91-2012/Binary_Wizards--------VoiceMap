@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoiceMap - Home</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoiceMap</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-    <header class="navbar">
-        <a href="/" class="logo-container">
-            <!-- Reference C:\Users\swapn\OneDrive\Pictures\VoiceMap_logo.jpeg -->
-            <img src="static/images/VoiceMap_logo.jpeg" class="logo" alt="VoiceMap Logo">
-            <span class="site-name">VoiceMap</span>
-        </a>
-    </header>
+<body class="bg-page">
 
-    <main class="home-container">
-        <div class="card-layout">
-            <!-- Transcriber Card -->
-            <a href="transcriber.html" class="card transcriber-card">
-                <div class="card-content">
-                    <!-- Reference C:\Users\swapn\OneDrive\Pictures\Transcriber.png -->
-                    <img src="static/images/Transcriber.png" class="card-icon" alt="Transcriber">
-                    <button class="btn btn-primary btn-transcriber">TRANSCRIBER</button>
-                    <p class="card-subtitle">Audio to Text Conversion</p>
-                </div>
-            </a>
+<header class="navbar">
+  <a href="index.html" class="logo-container">
+    <img src="static/images/VoiceMap_logo.jpeg" class="logo" />
+    <span class="site-name">VoiceMap</span>
+  </a>
+</header>
 
-            <!-- Sign Language Card -->
-            <a href="sign_language.html" class="card sign-language-card">
-                <div class="card-content">
-                    <!-- Reference C:\Users\swapn\OneDrive\Pictures\Sign language.png -->
-                    <img src="static/images/Sign_Language.png" class="card-icon" alt="Sign Language">
-                    <button class="btn btn-primary btn-sign-language">SIGN LANGUAGE</button>
-                    <p class="card-subtitle">Visual Communication Aid</p>
-                </div>
-            </a>
-        </div>
-    </main>
+
+  <main class="center-wrapper">
+    <div class="glass-panel home-panel">
+
+      <div class="home-card blue-card">
+        <img src="static/images/Transcriber.png" />
+        <h2>TRANSCRIBER</h2>
+        <p>Audio to Text Conversion</p>
+        <a href="transcriber.html" class="action-btn blue">Open</a>
+      </div>
+
+      <div class="home-card green-card">
+        <img src="static/images/Sign_Language.png" />
+        <h2>SIGN LANGUAGE</h2>
+        <p>Visual Communication Aid</p>
+        <a href="sign_language.html" class="action-btn green">Open</a>
+      </div>
+
+    </div>
+  </main>
 
 </body>
 </html>
