@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcriber - VoiceMap</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transcriber | VoiceMap</title>
+  <link rel="stylesheet" href="css/style.css"/>
+
+  <style>
+    .logo-container {
+      text-decoration: none;
+      color: white;
+    }
+    .site-name {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
 </head>
-<body class="transcriber-page">
-    <header class="navbar">
-        <a href="/" class="logo-container">
-            <img src="static/images/VoiceMap_logo.jpeg" class="logo" alt="VoiceMap Logo">
-            <span class="site-name">VoiceMap</span>
-        </a>
-    </header>
 
-    <main class="transcriber-container">
-        <div class="glass-card">
-            <div id="controls">
-                <button id="recordButton" class="btn btn-record-start">Start Recording</button>
-                <div class="or-separator">OR</div>
-                <input type="file" id="uploadInput" accept="audio/*" class="file-input">
-                <label for="uploadInput" class="btn btn-upload">Upload Audio File</label>
-            </div>
-            <div id="status" class="status-message"></div>
-            <div id="output" class="output-block-container">
-                <pre id="outputText" class="output-text"></pre>
-            </div>
-        </div>
-    </main>
+<body class="bg-page">
+<header class="navbar">
+  <a href="index.html" class="logo-container">
+    <img src="static/images/VoiceMap_logo.jpeg" class="logo" />
+    <span class="site-name">VoiceMap</span>
+  </a>
+</header>
 
-    <script src="/static/js/recorder.js"></script> 
-    <script src="/static/js/transcriber.js"></script>
+<main class="center-wrapper">
+  <div class="glass-panel vertical">
 
+    <h1>Transcriber Mode</h1>
+
+    <button id="recordButton" class="action-btn blue primary-btn">
+      START RECORDING 🎤
+    </button>
+
+    <div class="or-divider">OR</div>
+
+    <button id="uploadBtn" class="action-btn gray secondary-btn">
+      UPLOAD AUDIO FILE
+    </button>
+
+    <input type="file" id="uploadInput" accept="audio/*" hidden />
+
+    <div id="status" class="status-text"></div>
+
+    <div class="output-box">
+      <pre id="outputText"></pre>
+    </div>
+
+  </div>
+</main>
+
+<script src="/static/js/recorder.js"></script>
+<script src="/static/js/transcriber.js"></script>
 </body>
 </html>
