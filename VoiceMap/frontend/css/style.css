@@ -1,354 +1,198 @@
-/* --- Global Styles & Variables --- */
-:root {
-    --dark-gray: #222;
-    --navy-charcoal: #1a202c;
-    --glass-bg: rgba(26, 32, 44, 0.7);
-    --border-color: rgba(255, 255, 255, 0.18);
-    --blue-primary: #3182ce;
-    --blue-hover: #2b6cb0;
-    --red-primary: #e53e3e;
-    --red-hover: #c53030;
-    --green-primary: #38a169;
-    --green-hover: #2f855a;
-    --text-light: #edf2f7;
-    --text-dark: #1a202c;
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
 }
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-light);
-    line-height: 1.6;
+/* BACKGROUND */
+.bg-page {
+  min-height: 100vh;
+  background: url("../static/images/BACKGROUND_IMAGE.png") no-repeat center/cover;
+  color: #ffffff;
 }
 
+/* NAVBAR */
 .navbar {
-    background-color: var(--dark-gray);
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0,0,0,0.4);
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo {
-    height: 40px;
-    width: auto;
-    margin-right: 15px;
+  height: 40px;
 }
 
 .site-name {
-    font-size: 1.5rem;
-    font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
-.btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
+/* CENTERING */
+.center-wrapper {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
 
-.btn-primary {
-    color: white;
+/* GLASS PANEL */
+.glass-panel {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
 }
 
-/* --- Home Page --- */
-.home-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 72px); /* Full height minus navbar */
-    background: radial-gradient(circle, #ffffff 0%, #e2e8f0 50%, #1a202c 100%);
-    padding: 2rem;
+.glass-panel.vertical {
+  width: 420px;
+  text-align: center;
 }
 
-.card-layout {
-    display: flex;
-    gap: 2rem;
-    width: 100%;
-    max-width: 1000px;
-    justify-content: center;
+.glass-panel h1 {
+  margin-bottom: 2rem;
 }
 
-.card {
-    flex: 1;
-    text-decoration: none;
-    color: var(--text-dark);
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 2rem;
+/* HOME */
+.home-panel {
+  display: flex;
+  gap: 3rem;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+.home-card {
+  width: 260px;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.15);
 }
 
-.card-content {
-    text-align: center;
+.home-card img {
+  width: 120px;
+  margin-bottom: 1rem;
 }
 
-.card-icon {
-    width: 150px;
-    height: 150px;
-    margin-bottom: 1.5rem;
+.home-card h2 {
+  margin-bottom: 0.5rem;
 }
 
-.card .btn {
-    width: 100%;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
+/* =========================
+   BUTTONS (ENHANCED ONLY)
+========================= */
+
+/* Shared button base */
+.action-btn,
+.primary-btn,
+.secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 1.05rem 1.4rem;   /* ⬅ bigger padding */
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.05rem;       /* ⬅ bigger text */
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease;
 }
 
-.btn-transcriber { background-color: var(--blue-primary); }
-.btn-transcriber:hover { background-color: var(--blue-hover); }
-
-.btn-sign-language { background-color: var(--green-primary); }
-.btn-sign-language:hover { background-color: var(--green-hover); }
-
-.card-subtitle {
-    font-size: 1rem;
-    color: #4a5568;
+/* Color variants */
+.blue { 
+  background: #3b82f6; 
+  color: white; 
 }
 
-/* --- Transcriber Page --- */
-.transcriber-page {
-    background-color: lightblue;
-    background-image: radial-gradient(circle at center, rgba(56, 178, 172, 0.1) 0%, transparent 40%);
+.green { 
+  background: #22c55e; 
+  color: white; 
 }
 
-.transcriber-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 72px);
-    padding: 2rem;
+.gray { 
+  background: #6b7280; 
+  color: white; 
 }
 
-.glass-card {
-    background:  rgb(255, 255, 255);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    padding: 2rem 3rem;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
+/* Hover states */
+.blue:hover { 
+  background: #2563eb; 
+  transform: translateY(-2px);
 }
 
-.btn-record-start {
-    background-color: var(--blue-primary);
-    color: white;
-}
-.btn-record-start:hover { background-color: var(--blue-hover); }
-
-.btn-record-stop {
-    background-color: var(--red-primary);
-    color: white;
-}
-.btn-record-stop:hover { background-color: var(--red-hover); }
-
-.or-separator {
-    color: #a0aec0;
-    font-weight: 600;
-}
-.or-separator {
-    margin-top: 1.5rem;    /* Space above OR */
-    margin-bottom: 1.5rem; /* Space below OR */
-    text-align: center;    /* Keeps text centered */
-    color: #4a5568;        /* Using that grey/blue color from your screenshot */
-    font-weight: bold;     /* Makes it stand out slightly */
-    font-size: 0.9rem;
-}
-.file-input {
-    display: none;
+.green:hover { 
+  background: #16a34a; 
+  transform: translateY(-2px);
 }
 
-.btn-upload {
-    background-color: #718096;
-    color: white;
-    width: 200px;
-    text-align: center;
-}
-.btn-upload:hover { background-color: #4a5568; }
-
-.status-message {
-    margin: 1.5rem 0;
-    min-height: 24px;
-    font-size: 1.1rem;
-    color: #000000;
-    font-weight: 500;
-    z-index: 10;
+.gray:hover { 
+  background: #4b5563; 
 }
 
-.output-block-container {
-    margin-top: 1rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 1.5rem;
-    min-height: 150px;
-    text-align: left;
+/* Spacing between record & upload */
+.primary-btn,
+.secondary-btn {
+  margin: 0.6rem 0;
 }
 
-.output-text {
-    white-space: pre-wrap; /* Allows text to wrap */
-    word-wrap: break-word;
-    font-size: 1.1rem;
-    color: #000000;
+/* OR DIVIDER */
+.or-text {
+  margin: 1.5rem 0;
+  opacity: 0.85;
+  font-size: 0.9rem;
 }
 
-/* --- Sign Language Page --- */
-.sign-language-page {
-    background: radial-gradient(circle, #ffffff 0%, #d4f7e5 80%);
+.or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.8rem 0;
+  color: rgba(255,255,255,0.75);
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.sign-language-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    min-height: calc(100vh - 72px);
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  margin: 0 14px;
 }
 
-.page-title {
-    color: var(--text-dark);
-    margin-bottom: 2rem;
+/* OUTPUT */
+.output-box {
+  margin-top: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 120px;
 }
 
-.main-card-sign {
-    background-color: rgb(255, 255, 255);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 700px;
-    text-align: center;
+.video-box {
+  margin-top: 1.5rem;
+  height: 180px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
 }
 
-#controls-sign {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.btn-record-start-sign {
-    background-color: var(--green-primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.btn-record-start-sign:hover { background-color: var(--green-hover); }
-.btn-record-start-sign.recording { background-color: var(--red-primary); }
-.btn-record-start-sign.recording:hover { background-color: var(--red-hover); }
-
-.mic-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.or-separator {
-    color: #a0aec0;
-    font-weight: 600;
-}
-
-.file-input {
-    display: none;
-}
-
-.btn-upload {
-    background-color: #718096;
-    color: white;
-    width: 200px;
-    text-align: center;
-}
-.btn-upload:hover { background-color: #4a5568; }
-
-.status-message {
-    margin: 1.5rem 0;
-    min-height: 24px;
-    font-size: 1.1rem;
-    color: #000000;
-}
-
-.output-sign-container {
-    margin-top: 2rem;
-    text-align: left;
-    color: var(--text-dark);
-}
-
-.output-label {
-    font-size: 1.25rem;
-    font-weight: 600;
-    border-bottom: 2px solid #00050af8;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.transcribed-text-sign {
-    display: none;
-}
-
-.video-container {
-    margin-top: 1rem;
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    background-color: #000;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.video-container video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 85%;        
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-
-/* --- Responsive Design --- */
-@media (max-width: 768px) {
-    .card-layout {
-        flex-direction: column;
-    }
-
-    .navbar {
-        padding: 1rem;
-    }
-
-    .logo {
-        height: 30px;
-    }
-
-    .site-name {
-        font-size: 1.2rem;
-    }
-    
-    .glass-card, .main-card-sign {
-        padding: 1.5rem;
-    }
+/* STATUS */
+.status-text {
+  margin-top: 1rem;
+  font-size: 0.95rem;
 }
