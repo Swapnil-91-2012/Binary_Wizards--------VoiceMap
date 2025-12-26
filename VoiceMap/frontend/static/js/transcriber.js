@@ -12,7 +12,75 @@ document.addEventListener("DOMContentLoaded", () => {
        ELEMENT REFERENCES
     ========================== */
     const recordButton = document.getElementById("recordButton");
-    const uploadInput = document.getElementById("uploadInput");
+    const uploadInput = document.getElementById("uploadInput")document.addEventListener("DOMContentLoaded", () => {
+
+  const recordButton = document.getElementById("recordButton");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const uploadInput = document.getElementById("uploadInput");
+  const statusDiv = document.getElementById("status");
+  const outputText = document.getElementById("outputText");
+
+  if (!recordButton || !uploadBtn || !uploadInput || !statusDiv || !outputText) {
+    console.error("Transcriber: Missing DOM elements");
+    return;
+  }
+
+  const recorder = new AudioRecorder();
+  let isRecording = false;
+
+  recordButton.addEventListener("click", async () => {
+    if (!isRecording) {
+      await recorder.start();
+      isRecording = true;
+      recordButton.textContent = "STOP RECORDING";
+      statusDiv.textContent = "Recording...";
+    } else {
+      const audioBlob = await recorder.stop();
+      isRecording = false;
+      recordButton.textContent = "START RECORDING 🎤";
+
+      if (!audioBlob) return;
+      sendAudio(audioBlob);
+    }
+  });
+
+  uploadBtn.addEventListener("click", () => uploadInput.click());
+
+uploadInput.addEventListener("change", async () => {
+  const file = uploadInput.files[0];
+  if (!file) return;
+
+  outputText.textContent = "";
+
+  statusDiv.textContent = "Uploading audio...";
+
+  sendAudio(file);
+});
+
+
+  async function sendAudio(audioData) {
+    const formData = new FormData();
+    formData.append("audio", audioData);
+
+    try {
+      const res = await fetch("/transcribe", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+
+      statusDiv.textContent = "Transcription complete";
+      outputText.textContent = data.text || data.transcription || "";
+
+    } catch (err) {
+      statusDiv.textContent = err.message;
+    }
+  }
+
+});
+;
     const statusDiv = document.getElementById("status");
     const outputText = document.getElementById("outputText");
 
