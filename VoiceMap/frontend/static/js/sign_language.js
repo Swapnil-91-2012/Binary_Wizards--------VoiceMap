@@ -1,168 +1,103 @@
-/**
- * sign_language.js
- *
- * Handles:
- * - Audio recording
- * - File upload
- * - Backend communication
- * - Sequential sign video playback
- *
- * REQUIREMENTS:
- * - window.SIGN_MAP must exist
- */
-
 document.addEventListener("DOMContentLoaded", () => {
-    /* =========================
-       ELEMENT REFERENCES
-    ========================== */
-    const recordButton = document.getElementById("recordButtonSign");
-    const uploadInput = document.getElementById("uploadInput");
-    const statusDiv = document.getElementById("statusSign");
-    const outputContainer = document.getElementById("outputSign");
-    const transcribedTextElem = document.getElementById("transcribedText");
-    const videoContainer = document.getElementById("videoContainer");
 
-    /* =========================
-       SAFETY CHECK
-    ========================== */
-    if (!window.SIGN_MAP) {
-        console.error("SIGN_MAP not loaded. Check signs/sign_map.js");
-        statusDiv.textContent = "Sign dictionary failed to load.";
+  const recordButton = document.getElementById("recordButtonSign");
+  const uploadBtn = document.getElementById("uploadBtnSign");
+  const uploadInput = document.getElementById("uploadSign");
+  const statusDiv = document.getElementById("statusSign");
+  const videoContainer = document.getElementById("videoContainer");
+
+  if (!recordButton || !uploadBtn || !uploadInput || !statusDiv || !videoContainer) {
+    console.error("Sign Language: Missing DOM elements");
+    return;
+  }
+
+  if (!window.SIGN_MAP) {
+    statusDiv.textContent = "Sign map failed to load.";
+    return;
+  }
+
+  const recorder = new AudioRecorder();
+  let isRecording = false;
+
+  recordButton.addEventListener("click", async () => {
+    if (!isRecording) {
+      try {
+        await recorder.start();
+        isRecording = true;
+        recordButton.textContent = "STOP RECORDING";
+        statusDiv.textContent = "Recording...";
+      } catch (err) {
+        statusDiv.textContent = err.message;
+      }
+    } else {
+      const audioBlob = await recorder.stop();
+      isRecording = false;
+      recordButton.textContent = "START RECORDING 🎤";
+
+      if (!audioBlob) return;
+
+      statusDiv.textContent = "Processing audio...";
+      sendAudio(audioBlob);
+    }
+  });
+
+  uploadBtn.addEventListener("click", () => uploadInput.click());
+
+  uploadInput.addEventListener("change", () => {
+    const file = uploadInput.files[0];
+    if (!file) return;
+
+    statusDiv.textContent = "Uploading audio...";
+    sendAudio(file);
+  });
+
+  async function sendAudio(audioData) {
+    const formData = new FormData();
+    formData.append("audio", audioData);
+
+    try {
+      const res = await fetch("/sign-language", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Processing failed");
+
+      playSigns(data.transcription);
+
+    } catch (err) {
+      statusDiv.textContent = err.message;
+    }
+  }
+
+  function playSigns(text) {
+    videoContainer.innerHTML = "";
+    const words = text.toUpperCase().split(/\s+/);
+    let index = 0;
+
+    const video = document.createElement("video");
+    video.autoplay = true;
+    video.muted = true;
+    video.style.width = "100%";
+
+    videoContainer.appendChild(video);
+
+    function next() {
+      if (index >= words.length) {
+        statusDiv.textContent = "Playback finished";
         return;
+      }
+
+      const file = window.SIGN_MAP[words[index++]];
+      if (!file) return next();
+
+      video.src = `/static/signs/${file}`;
+      video.play();
+      video.onended = next;
     }
 
-    const SIGN_MAP = window.SIGN_MAP;
+    next();
+  }
 
-    const recorder = new AudioRecorder();
-    let isRecording = false;
-
-    /* =========================
-       RECORD BUTTON
-    ========================== */
-    recordButton.addEventListener("click", async () => {
-        if (!isRecording) {
-            try {
-                await recorder.start();
-                isRecording = true;
-                updateButton(true);
-                statusDiv.textContent = "Recording...";
-                resetOutput();
-            } catch (err) {
-                statusDiv.textContent = err.message;
-            }
-        } else {
-            const audioBlob = await recorder.stop();
-            isRecording = false;
-            updateButton(false);
-
-            if (!audioBlob) {
-                statusDiv.textContent = "No audio captured.";
-                return;
-            }
-
-            statusDiv.textContent = "Processing audio...";
-            sendForProcessing(audioBlob);
-        }
-    });
-
-    /* =========================
-       FILE UPLOAD
-    ========================== */
-    uploadInput.addEventListener("change", () => {
-        const file = uploadInput.files[0];
-        if (!file) return;
-
-        resetOutput();
-        statusDiv.textContent = "Processing audio file...";
-        sendForProcessing(file);
-    });
-
-    /* =========================
-       UI HELPERS
-    ========================== */
-    function updateButton(recording) {
-        recordButton.textContent = recording
-            ? "Stop Recording"
-            : "Start Recording";
-
-        recordButton.classList.toggle("recording", recording);
-    }
-
-    function resetOutput() {
-        outputContainer.style.display = "none";
-        transcribedTextElem.textContent = "";
-        videoContainer.innerHTML = "";
-    }
-
-    /* =========================
-       BACKEND CALL
-    ========================== */
-    async function sendForProcessing(audioData) {
-        const formData = new FormData();
-        formData.append("audio", audioData, "audio.webm");
-
-        try {
-            const response = await fetch("/sign-language", {
-                method: "POST",
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || "Processing failed");
-            }
-
-            statusDiv.textContent = "Transcription complete";
-            displaySignVideos(result.transcription);
-
-        } catch (err) {
-            console.error(err);
-            statusDiv.textContent = "Error: " + err.message;
-            resetOutput();
-        }
-    }
-
-    /* =========================
-       SIGN VIDEO PLAYER
-    ========================== */
-    function displaySignVideos(text) {
-        transcribedTextElem.textContent = text;
-        outputContainer.style.display = "block";
-        videoContainer.innerHTML = "";
-
-        const words = text
-            .toUpperCase()
-            .replace(/[^\w\s]/g, "")
-            .split(/\s+/);
-
-        let index = 0;
-
-        function playNext() {
-            if (index >= words.length) return;
-
-            const word = words[index++];
-            const fileName = SIGN_MAP[word];
-
-            if (!fileName) {
-                playNext(); // skip unknown words
-                return;
-            }
-
-            const video = document.createElement("video");
-            video.src = `/static/signs/${fileName}`;
-            video.autoplay = true;
-            video.muted = true;
-            video.playsInline = true;
-            video.controls = false;
-            video.style.width = "260px";
-            video.style.margin = "8px";
-
-            video.onended = playNext;
-
-            videoContainer.appendChild(video);
-        }
-
-        playNext();
-    }
 });
