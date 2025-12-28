@@ -9,6 +9,7 @@ class AudioRecorder {
         this.mediaRecorder = null;
         this.audioChunks = [];
         this.audioBlob = null;
+        this.audioFile = null;
         this.stream = null;
     }
 
@@ -24,8 +25,9 @@ class AudioRecorder {
 
         try {
             this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            this.mediaRecorder = new MediaRecorder(this.stream);
             this.audioChunks = [];
+
+            this.mediaRecorder = new MediaRecorder(this.stream);
 
             this.mediaRecorder.addEventListener("dataavailable", event => {
                 this.audioChunks.push(event.data);
@@ -41,7 +43,7 @@ class AudioRecorder {
 
     /**
      * Stops the audio recording.
-     * @returns {Promise<Blob>} A promise that resolves with the recorded audio as a Blob.
+     * @returns {Promise<File>} A promise that resolves with the recorded audio as a File.
      */
     stop() {
         return new Promise(resolve => {
@@ -52,10 +54,17 @@ class AudioRecorder {
             }
 
             this.mediaRecorder.addEventListener("stop", () => {
-                this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
-                // Stop all tracks on the stream to release the microphone
+                this.audioBlob = new Blob(this.audioChunks, { type: "audio/webm" });
+
+                // 🔧 FIX: convert Blob → File with filename
+                this.audioFile = new File(
+                    [this.audioBlob],
+                    "recording.webm",
+                    { type: "audio/webm" }
+                );
+
                 this.stream.getTracks().forEach(track => track.stop());
-                resolve(this.audioBlob);
+                resolve(this.audioFile);
             });
 
             this.mediaRecorder.stop();
@@ -63,10 +72,10 @@ class AudioRecorder {
     }
 
     /**
-     * Gets the most recently recorded audio Blob.
-     * @returns {Blob|null} The audio blob, or null if no recording has been made.
+     * Gets the most recently recorded audio File.
+     * @returns {File|null} The audio file, or null if no recording has been made.
      */
     getAudioBlob() {
-        return this.audioBlob;
+        return this.audioFile;
     }
 }
