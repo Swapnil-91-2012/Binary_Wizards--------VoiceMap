@@ -4,14 +4,14 @@ import os
 import uuid
 
 import whisper_service
-import gloss_service   
+import gloss_service
+
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(BASE_DIR, "../frontend")
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
-
 
 UPLOAD_FOLDER = os.path.join(app.root_path, "uploads")
 ALLOWED_EXTENSIONS = {"mp3", "mp4", "mpeg", "mpga", "m4a", "wav", "webm"}
@@ -22,7 +22,9 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ---------- HELPERS ---------- #
 
 def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    if not filename or "." not in filename:
+        return False
+    return filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def save_temp_file(file):
     ext = file.filename.rsplit(".", 1)[1].lower()
@@ -49,12 +51,17 @@ def index():
 def serve_static(path):
     return send_from_directory(app.static_folder, path)
 
-@app.route('/transcribe', methods=['POST'])
+@app.route("/transcribe", methods=["POST"])
 def transcribe_audio():
-    if 'audio' not in request.files:
+    if "audio" not in request.files:
         return jsonify({"error": "No audio file"}), 400
 
-    file = request.files['audio']
+    file = request.files["audio"]
+
+    # 🔧 FIX: handle recorded blobs without filename
+    if not file.filename or "." not in file.filename:
+        file.filename = "recording.webm"
+
     if not allowed_file(file.filename):
         return jsonify({"error": "Invalid file type"}), 400
 
@@ -69,7 +76,6 @@ def transcribe_audio():
         if os.path.exists(path):
             os.remove(path)
 
-
 @app.route("/signs/<path:filename>")
 def serve_signs(filename):
     return send_from_directory("signs", filename)
@@ -80,6 +86,10 @@ def generate_sign_language():
         return jsonify({"error": "No audio file"}), 400
 
     file = request.files["audio"]
+
+    # 🔧 FIX: handle recorded blobs without filename
+    if not file.filename or "." not in file.filename:
+        file.filename = "recording.webm"
 
     if not allowed_file(file.filename):
         return jsonify({"error": "Invalid file type"}), 400
